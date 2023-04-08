@@ -51,6 +51,7 @@
   "dependencies": {
     "@loopback/boot": "^5.0.9",
     "@loopback/core": "^4.0.9",
+    "@loopback/health": "^0.11.9",
     "@loopback/repository": "^5.1.4",
     "@loopback/rest": "^12.0.9",
     "@loopback/rest-explorer": "^5.0.9",

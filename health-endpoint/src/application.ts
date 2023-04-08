@@ -10,6 +10,7 @@ import path from 'path';
 import {MySequence} from './sequence';
 import {TypeOrmMixin} from '@loopback/typeorm';
 import { postgresConnection } from './datasource';
+import {HealthComponent} from '@loopback/health';
 
 export {ApplicationConfig};
 
@@ -32,6 +33,7 @@ export class HealthEndpointApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
+    this.component(HealthComponent);
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
