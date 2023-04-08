@@ -55,6 +55,8 @@
     "@loopback/rest": "^12.0.9",
     "@loopback/rest-explorer": "^5.0.9",
     "@loopback/service-proxy": "^5.0.9",
+    "@loopback/typeorm": "^0.7.9",
+    "pg": "^8.10.0",
     "postgres": "^3.3.4",
     "tslib": "^2.0.0",
     "typeorm": "^0.3.13"

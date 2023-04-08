@@ -1,6 +1,7 @@
 import {ApplicationConfig, HealthEndpointApplication} from './application';
 
 export * from './application';
+export * from './datasource';
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new HealthEndpointApplication(options);

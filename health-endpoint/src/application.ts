@@ -4,19 +4,22 @@ import {
   RestExplorerBindings,
   RestExplorerComponent,
 } from '@loopback/rest-explorer';
-import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {TypeOrmMixin} from '@loopback/typeorm';
+import { postgresConnection } from './datasource';
 
 export {ApplicationConfig};
 
 export class HealthEndpointApplication extends BootMixin(
-  ServiceMixin(RepositoryMixin(RestApplication)),
+  ServiceMixin(TypeOrmMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+
+    // this.connection(postgresConnection);
 
     // Set up the custom sequence
     this.sequence(MySequence);
