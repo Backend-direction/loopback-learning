@@ -9,14 +9,17 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {TypeOrmMixin} from '@loopback/typeorm';
+import { postgresConnection } from './connection/postgres.connection';
 
 export {ApplicationConfig};
 
 export class CosmosTypeormLoopbackApplication extends BootMixin(
-  ServiceMixin(RepositoryMixin(RestApplication)),
+  TypeOrmMixin(RepositoryMixin(RestApplication)),
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+    this.connection(postgresConnection);
 
     // Set up the custom sequence
     this.sequence(MySequence);
