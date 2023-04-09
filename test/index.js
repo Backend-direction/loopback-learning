@@ -1,78 +1,43 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-var MongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
-var url = '';
+// Read .env file and set environment variables
+require('dotenv').config();
+const random = Math.floor(Math.random() * 100);
 
-var insertDocument = function(db, callback) {
-db.collection('families').insertOne( {
-        "id": "AndersenFamily",
-        "lastName": "Andersen",
-        "parents": [
-            { "firstName": "Thomas" },
-            { "firstName": "Mary Kay" }
-        ],
-        "children": [
-            { "firstName": "John", "gender": "male", "grade": 7 }
-        ],
-        "pets": [
-            { "givenName": "Fluffy" }
-        ],
-        "address": { "country": "USA", "state": "WA", "city": "Seattle" }
-    }, function(err, result) {
-    assert.equal(err, null);
-    console.log("Inserted a document into the families collection.");
-    callback();
-});
-};
+// Use official mongodb driver to connect to the server
+const { MongoClient, ObjectId } = require('mongodb');
 
-var findFamilies = function(db, callback) {
-var cursor =db.collection('families').find( );
-cursor.each(function(err, doc) {
-    assert.equal(err, null);
-    if (doc != null) {
-        console.dir(doc);
-    } else {
-        callback();
-    }
-});
-};
 
-var updateFamilies = function(db, callback) {
-db.collection('families').updateOne(
-    { "lastName" : "Andersen" },
-    {
-        $set: { "pets": [
-            { "givenName": "Fluffy" },
-            { "givenName": "Rocky"}
-        ] },
-        $currentDate: { "lastModified": true }
-    }, function(err, results) {
-    console.log(results);
-    callback();
-});
-};
+const url = '';
+const client = new MongoClient(url);
 
-var removeFamilies = function(db, callback) {
-db.collection('families').deleteMany(
-    { "lastName": "Andersen" },
-    function(err, results) {
-        console.log(results);
-        callback();
-    }
-);
-};
+async function main(){
 
-MongoClient.connect(url, function(err, client) {
-assert.equal(null, err);
-var db = client.db('familiesdb');
-insertDocument(db, function() {
-    findFamilies(db, function() {
-    updateFamilies(db, function() {
-        removeFamilies(db, function() {
-            client.close();
-        });
-    });
-    });
-});
-});
+    await client.connect();
+    
+    const db = client.db(`familiesdb`);
+    console.log(`New database:\t${db.databaseName}\n`);
+
+    // Collection reference with creation if it does not already exist
+    const collection = db.collection('families');
+    console.log(`New collection:\t${collection.collectionName}\n`);
+
+    const product = {
+        id: '1',
+        category: "gear-surf-surfboards",
+        name: `Yamba Surfboard-${random}`,
+        quantity: 12,
+        sale: false,
+        country: 'USA'
+    };
+    const query = { name: product.name};
+    const update = { $set: product };
+    const options = {upsert: true, new: true};
+    
+    // Insert via upsert (create or replace) doc to collection directly
+    const upsertResult1 = await collection.updateOne(query, update, options);
+    console.log(`upsertResult1: ${JSON.stringify(upsertResult1)}\n`);
+}
+
+main()
+    .then(console.log)
+    .catch(console.error)
+    .finally(() => client.close());
