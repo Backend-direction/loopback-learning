@@ -1,7 +1,10 @@
 const { CosmosClient } = require("@azure/cosmos");
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const client = new CosmosClient('mongodb://localhost:C2y6yDjf5%2FR%2Bob0N8A7Cgv30VRDJIWEHLM%2B4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw%2FJw%3D%3D@localhost:10255/admin?ssl=true');
+const endpoint = '';
+const key = ''
+
+const client = new CosmosClient({ endpoint, key });
 const databaseId = 'db'
 
 async function createDatabase() {
