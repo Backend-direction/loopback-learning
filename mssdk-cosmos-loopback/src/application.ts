@@ -22,8 +22,6 @@ export class MssdkCosmosLoopbackApplication extends BootMixin(
     // Set up the custom sequence
     this.sequence(MySequence);
 
-    initDatabase();
-
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 

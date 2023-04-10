@@ -1,6 +1,7 @@
 import {ApplicationConfig, MssdkCosmosLoopbackApplication} from './application';
 
 export * from './application';
+export * from './datasource/db';
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new MssdkCosmosLoopbackApplication(options);
